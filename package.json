@@ -24,6 +24,7 @@
   "dependencies": {
     "@types/node": "^10.0.8",
     "eslint": "^4.19.1",
+    "pdf.js-extract": "0.0.9",
     "typescript": "^2.8.3"
   }
 }

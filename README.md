@@ -1,2 +1,2 @@
-# BlankTypeScriptNodeProject
- A Blank Typescript Node.js Template 
+# Research Linker
+
