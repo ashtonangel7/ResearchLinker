@@ -1,6 +1,4 @@
-import Content = require("./Content");
-
-class PdfContents extends Content {
+class PdfContents  {
 	Contents: string;
 }
 

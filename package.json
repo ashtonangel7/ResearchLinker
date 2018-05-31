@@ -1,30 +1,30 @@
 {
-  "name": "blanktypescriptnodeproject",
+  "name": "researchlinker",
   "version": "0.0.1",
-  "description": "A blank node.js Typescript project",
+  "description": "Research Linker.",
   "main": "./built/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ashtonangel7/BlankTypeScriptNodeProject.git"
+    "url": "git+https://github.com/ashtonangel7/ResearchLinker.git"
   },
   "keywords": [
-    "Blank",
+    "Research",
     "Typescript",
     "NodeJs"
   ],
   "author": "Ashton",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ashtonangel7/BlankTypeScriptNodeProject/issues"
+    "url": "https://github.com/ashtonangel7/ResearchLinker/issues"
   },
-  "homepage": "https://github.com/ashtonangel7/BlankTypeScriptNodeProject#readme",
+  "homepage": "https://github.com/ashtonangel7/ResearchLinker#readme",
   "dependencies": {
-    "@types/node": "^10.0.8",
+    "@types/node": "^10.1.4",
     "eslint": "^4.19.1",
     "pdf.js-extract": "0.0.9",
-    "typescript": "^2.8.3"
+    "typescript": "^2.9.1"
   }
 }

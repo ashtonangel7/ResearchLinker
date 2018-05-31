@@ -1,40 +1,51 @@
-import pdfjs = require('pdf.js-extract');
+import pdfjs = require("pdf.js-extract");
 import IExtractor = require("./IExtractor");
-import PdfContentsPromise = require("../promises/PdfContentsPromise");
 import PdfContents = require("../models/PdfContents");
+import IPromiseResponse = require("../promises/IPromiseResponse");
+import PdfContentsPromise = require("../promises/PdfContentsPromise");
 
-class PdfContentsExtractor implements IExtractor<PdfContentsPromise> {
+class PdfContentsExtractor implements IExtractor<IPromiseResponse<PdfContents>> {
 	private readonly _options: Options;
-	private readonly _filePath: string;
+	private readonly _filePaths: string[];
 	private readonly _pdfExtract;
 
-	constructor(filePath: string, options: Options) {
-		this._filePath = filePath;
+	constructor(filePaths: string[], options: Options) {
+		this._filePaths = filePaths;
 		this._options = options;
 		this._pdfExtract = new pdfjs.PDFExtract();
 	}
 
-	public Extract(): Promise<PdfContentsPromise> {
+	public Extract(): Promise<IPromiseResponse<PdfContents>> {
 
 		return new Promise((resolve, reject) => {
 
-			this._pdfExtract.extract(this._filePath, this._options, (err, data) => {
+			try {
 
-				let promiseResponse: PdfContentsPromise = new PdfContentsPromise();
+				//throw new TypeError("Testing Try Catch!");
+				//TODO: Handle file array.
+				this._pdfExtract.extract(this._filePaths[0], this._options, (error, data) => {
 
-				if (err) {
-					reject(err);
-				}
+					let promiseResponse: IPromiseResponse<PdfContents> = new PdfContentsPromise();
 
-				let pdfContents: PdfContents = new PdfContents();
-				let fullText = "";
-				data.pages.map(page => { page.content.map(item => { fullText += item.str }) });
+					if (error) {
+						reject(error);
+						return;
+					}
 
-				pdfContents.Contents = fullText;
+					let pdfContents: PdfContents = new PdfContents();
+					let fullText = "";
+					data.pages.map(page => { page.content.map(item => { fullText += item.str }) });
 
-				promiseResponse.ResolveResult = pdfContents;
-				resolve(promiseResponse);
-			});
+					pdfContents.Contents = fullText;
+
+					promiseResponse.ResolveResult = pdfContents;
+					resolve(promiseResponse);
+				});
+			}
+			catch (error) {
+				//Note this will swallow the stack.
+				reject((<Error>error).message);
+			}
 		});
 	}
 }

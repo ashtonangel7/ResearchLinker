@@ -1,19 +1,33 @@
-import DataFlow = require("./dataflows/DataFlow");
-import ContentReader = require("./dataflows/readers/ContentReader");
+import DirectoryReader = require("./readers/DirectoryReader");
+
+import ExtractorReader = require("./readers/ExtractorReader");
 import PdfContentsExtractor = require("./extractors/PdfContentsExtractor");
+import IPromiseResponse = require("./promises/IPromiseResponse");
+import PdfContents = require("./models/PdfContents");
 
-let path: string = "C:\\ProgramData\\ResearchLinker\\Data\\1.pdf";
-let options = new PdfContentsExtractor.Options();
+let path: string = "C:\\ProgramData\\ResearchLinker\\Data\\";
 
-let pdfContentsExtractor = new PdfContentsExtractor.PdfContentsExtractor(path, options);
-let contentReader = new ContentReader(pdfContentsExtractor);
-let dataFlow = new DataFlow(contentReader);
+let directoryReader = new DirectoryReader(path);
 
-dataFlow.Read().then(result => {
-	console.log(result.ResolveResult.Contents);
+directoryReader.Read().then(result => {
+
+	let options = new PdfContentsExtractor.Options();
+
+	let pdfContentsExtractor = new PdfContentsExtractor.PdfContentsExtractor(result, options);
+	let pdfContentReader = new ExtractorReader<IPromiseResponse<PdfContents>>(pdfContentsExtractor);
+
+	pdfContentReader.Read().then(result => {
+		console.log(result.ResolveResult.Contents);
+	}).catch(error => {
+		console.log(`Error ${error}`);
+	});
+
 }).catch(error => {
-	console.log(`Error $(error)`);
+	console.log(error);
 });
+
+
+
 
 
 
